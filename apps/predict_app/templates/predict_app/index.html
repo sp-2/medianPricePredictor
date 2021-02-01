@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+ <html>
+   <head>
+     <meta charset="utf-8">
+     <title></title>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+     <link href="https://fonts.googleapis.com/css?family=Noto+Serif+TC" rel="stylesheet">
+   </head>
+   <body style="font-family: 'Noto Serif TC', serif;background-color:powderblue;text-align:center;">
+       <div class="container" style="background-color:powderblue;">
+         {% load static %}
+         {% load humanize %}
+         <br>
+           <h1>Median House Price Predictor for Single Family Homes</h1>
+           <br>
+           <form action="/create" method="post">
+    	        {% csrf_token %}
+              Enter County:&nbsp
+              <select name="county">
+                <option value="">Enter County</option>
+                  {% for county in request.session.list_of_counties %}
+                    <option value="{{ county }}">{{ county }}</option>
+                  {% endfor %}
+              </select>&nbsp
+              Enter Month: &nbsp
+              <select name="month">
+              <option value="">Enter Month</option>
+                {% for month in request.session.month_list %}
+                  <option value="{{ month }}">{{ month }}</option>
+                {% endfor %}
+              </select>&nbsp
+              Enter Year:&nbsp
+              <select name="year">&nbsp
+                <option value="">Enter Year</option>
+                  {% for year in request.session.year_list %}
+                    <option value="{{ year }}">{{ year }}</option>
+                  {% endfor %}
+              </select>
+              &nbsp
+    	        <input class="btn btn-primary" type="submit" value="Submit">
+              </form>
+              <br>
+              <h3>The <em>Median House Price</em> for <em>Single Family Homes<em> in <strong>{{request.session.county}}</strong> County in <strong>{{request.session.month}}-{{request.session.year}}</strong> will be:</h3>
+              <h2 style="color: #0606a5;">${{request.session.price|intcomma}}</h2>
+              <br>
+              <p><a class="btn btn-success" href="/info">More Information</a><p>
+              <br>
+              <img src="{% static "predict_app/images/figure.png" %}" height="600" width="650" alt="My image">
+              <br><br>
+       </div>
+   </body>
+ </html>

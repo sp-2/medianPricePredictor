@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+ <html>
+   <head>
+     <meta charset="utf-8">
+     <title></title>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+     <link href="https://fonts.googleapis.com/css?family=Noto+Serif+TC" rel="stylesheet">
+   </head>
+   <body style="background-color:powderblue;">
+     {% load static %}
+
+    <div class="container">
+      <br>
+  		<div>
+  			<ol class="breadcrumb">
+   					<li class="breadcrumb-item active"><a href="/">Back</a></li>
+  			</ol>
+  		</div>
+
+      <h1 style="font-family: 'Noto Serif TC', serif;" >County Info:</h1><br>
+  		<div class="row"  >
+  			<div class="col-md-8">
+  				<div class="panel panel-default" style="background-color:#f4f4f2;">
+  					<div class="panel-body">
+              <h4 style="font-family: 'Noto Serif TC', serif;">&nbsp Listings in {{request.session.county}} County, CA</h4>
+              {% for listing in listings_list|slice:"3:" %}
+                <div class="panel panel-default" background-color="grey">
+                  <div class="panel-body" style="background-color:#fff;">
+                    <div class="row">
+                  			<div class="col-md-6">
+                          <h4><img src="{{listing.image}}" height="200" width="250" alt="image"></h4>
+                        </div>
+                        <div class="col-md-6">
+                          <p><a href={{listing.listing_url}}>{{listing.listing_address}}</a></p>
+                          <p>{{listing.listing_type}}</p>
+                          <p><strong>{{listing.listing_price}}</strong>,  <strong>{{listing.listing_status}}</strong>, <strong>{{listing.listing_dom}}</strong></p>
+                          <p>MLS#: <strong>{{listing.listing}}</strong> <strong>{{listing.beds}}</strong> {{listing.beds_text}} <strong>{{listing.baths}}</strong> {{listing.baths_text}}</p>
+                          <p><strong>{{listing.sqft}}</strong> {{listing.sqft_text}} <strong> &nbsp {{listing.lot_size}}</strong> {{listing.lot_size_text}}</p>
+                          <p><strong>{{listing.garage}}</strong> {{listing.garage_text}} <strong> &nbsp {{listing.year_built}}</strong> {{listing.year_built_text}}</p>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              {% endfor %}
+  					</div>
+  				</div>
+  			</div>
+  			<div class="col-md-4">
+          <div class="row">
+            <div class="panel panel-default">
+    					<div class="panel-body" style="background-color:#fff;">
+                <h4 style="font-family: 'Noto Serif TC', serif;">Weather in {{request.session.county}} County, CA</h4>
+                <p>{{weather_data.description}}</p>
+                <h4><img src="http://openweathermap.org/img/w/{{weather_data.icon}}.png" height="35" width="42" alt="image">{{weather_data.temperature}} F</h4>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <h4 style="font-family: 'Noto Serif TC', serif;">&nbsp Points of Interest in {{request.session.county}} County, CA</h4>
+            {% for poi in poi_list|slice:"3:" %}
+
+              <div class="panel panel-default" background-color="grey">
+      					<div class="panel-body" style="background-color:#fff;">
+      						<h4>{{poi.name}}</h4>
+                  <p><strong>Rating:</strong> {{poi.rating}}</p>
+                  <p>{{poi.address}}</p>
+                  <p ><img {% if poi.photos != '' %} src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{ poi.photos }}&key=AIzaSyDRlMVi72tJvm7-5Gw7HPWmqus9Hx3c0f0" height="200" width="250" alt="image">{% endif %} </p>
+                </div>
+      				</div>
+            {% endfor %}
+  			  </div>
+  		</div>
+    </div>
+   </body>
+ </html>
